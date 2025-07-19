@@ -10,7 +10,7 @@ import {supabase} from './lib/supabase'
 // }]
 
 function App() {
-  const [todos, setTools] = useState([]);
+  const [todos, setTodos] = useState([]);
   const [inputValue, setInputValue] = useState('');
 
   useEffect(() => {
@@ -39,31 +39,29 @@ function App() {
     // 추가 버튼 클릭 (완료)
     // input에 있는 텍스트가 setTodos를 통해 todos 값에 추가 ()
  
-  const addTodo = async(e) => {
-    e.preventDefault();
+const addTodo = async (e) => {
+  e.preventDefault();
 
   try {
     const { data, error } = await supabase
       .from('todos')
-      .insert([
-        {text : inputValue }])
-      .select()
-    if (data && data.length > 0){
+      .insert([{ text: inputValue }])
+      .select();
+
+    if (error) {
+      console.error('Error adding todo:', error.message);
+      return;
+    }
+
+    if (data && data.length > 0) {
       setTodos([data[0], ...todos]);
     }
-    setInputValue('');
-  } catch(error){
 
+    setInputValue('');
+  } catch (err) {
+    console.error('Unexpected error:', err);
   }
-    const newTodo = {
-      id : Date.now().toString(),
-      text : inputValue,
-      completed : false
-    };
-
-    setTodos([newTodo, ...todos])
-    setInputValue('');
-  };
+};
   
 const toggleTodo = async (id) => {
   try {
