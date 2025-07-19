@@ -118,7 +118,7 @@ const toggleTodo = async (id) => {
         type="text"
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
-        placeholder="fuck..."
+        placeholder="새로운 할 일을 입력하세요..."
         className='todo-input'
         />
         <button type="submit" className="add-button">
